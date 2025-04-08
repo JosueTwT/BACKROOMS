@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Backrooms - Josue_TwT</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+        }
+
+        .monitor {
+            background-color: black;
+            border: 8px solid #00FF00;
+            border-radius: 30px;
+            box-shadow: 0 0 20px 5px rgba(0, 255, 0, 0.8);
+            padding: 20px;
+            width: 600px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            color: #00FF00;
+            padding: 20px;
+            width: 100%;
+            z-index: 1;
+        }
+
+        h2 {
+            text-shadow: 0 0 10px #00FF00, 0 0 15px #00FF00;
+            margin-bottom: 30px;
+        }
+
+        .input-code {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            background-color: black;
+            color: #00FF00;
+            border: 1px solid #00FF00;
+            padding: 10px;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            font-size: 28px;
+            margin: 0 8px;
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #00FF00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+            transform: scale(1.1);
+        }
+
+        button {
+            background-color: black;
+            color: #00FF00;
+            border: 2px solid #00FF00;
+            padding: 12px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        button:hover {
+            background-color: #00FF00;
+            color: black;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 1);
+        }
+
+        img {
+            display: block;
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            margin-top: 20px;
+            border: 2px solid #00FF00;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+        }
+
+        .error {
+            color: #FF3333;
+            font-size: 16px;
+            margin-top: 15px;
+            text-shadow: 0 0 10px #FF3333;
+        }
+
+        @keyframes randomText {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 0.7;
+            }
+        }
+
+        .random-letters {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            font-size: 24px;
+            animation: randomText 0.5s infinite alternate;
+            white-space: nowrap;
+        }
+
+        .random-letter {
+            position: absolute;
+            color: #00FF00;
+            animation: randomText 0.5s infinite alternate;
+            font-size: 24px;
+            user-select: none;
+            opacity: 0.5;
+        }
+
+        .highlight {
+            position: absolute;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: yellow;
+            font-size: 28px;
+            z-index: 1000;
+            opacity: 0;
+            display: none;
+        }
+
+        @keyframes glow {
+            0% {
+                opacity: 0;
+                text-shadow: 0 0 10px yellow, 0 0 20px yellow, 0 0 30px yellow;
+                transform: translateX(-50%) scale(1);
+            }
+            25% {
+                opacity: 1;
+                text-shadow: 0 0 15px yellow, 0 0 25px yellow, 0 0 40px yellow;
+                transform: translateX(-50%) scale(1.5);
+            }
+            75% {
+                opacity: 1;
+                text-shadow: 0 0 15px yellow, 0 0 25px yellow, 0 0 40px yellow;
+                transform: translateX(-50%) scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                text-shadow: 0 0 10px yellow, 0 0 20px yellow, 0 0 30px yellow;
+                transform: translateX(-50%) scale(1);
+            }
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        .shaking {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .error-container {
+            margin-top: 20px;
+            height: 20px;
+        }
+
+        @keyframes scanLine {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(100%);
+                opacity: 0.5;
+            }
+        }
+
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            background-color: rgba(0, 255, 0, 0.2);
+            top: 0;
+            left: 0;
+            animation: scanLine 3s linear infinite;
+        }
+
+        .keyboard-hint {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #00AA00;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .loading-bar-container {
+            width: 80%;
+            height: 20px;
+            background-color: #003300;
+            border: 2px solid #00FF00;
+            border-radius: 10px;
+            margin: 20px auto;
+            overflow: hidden;
+            display: none;
+        }
+
+        .loading-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #00FF00;
+            transition: width 0.8s ease-in-out;
+        }
+
+        .modal-window {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 700px;
+            background-color: black;
+            border: 5px solid #00FF00;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.9);
+            z-index: 100;
+            display: none;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #00FF00;
+        }
+
+        .modal-title {
+            color: #00FF00;
+            margin: 0;
+            text-shadow: 0 0 10px #00FF00;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            color: #00FF00;
+            font-size: 24px;
+            cursor: pointer;
+            margin: 0;
+            padding: 0 10px;
+            text-shadow: 0 0 10px #00FF00;
+        }
+
+        .modal-content {
+            text-align: center;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 50;
+            display: none;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.9; }
+            5% { opacity: 0.2; }
+            10% { opacity: 0.9; }
+            15% { opacity: 0.8; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            85% { opacity: 0.6; }
+            90% { opacity: 1; }
+            95% { opacity: 0.2; }
+            100% { opacity: 0.9; }
+        }
+
+        .modal-window {
+            animation: flicker 2s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="monitor">
+        <div class="container">
+            <h2>The Backrooms - Josue_TwT</h2>
+            <p>Introduce un código de 5 dígitos.</p>
+            <div class="input-code">
+                <input type="text" id="input1" maxlength="1" oninput="handleInput(event, 1)" onkeydown="handleKeyDown(event, 1)">
+                <input type="text" id="input2" maxlength="1" oninput="handleInput(event, 2)" onkeydown="handleKeyDown(event, 2)">
+                <input type="text" id="input3" maxlength="1" oninput="handleInput(event, 3)" onkeydown="handleKeyDown(event, 3)">
+                <input type="text" id="input4" maxlength="1" oninput="handleInput(event, 4)" onkeydown="handleKeyDown(event, 4)">
+                <input type="text" id="input5" maxlength="1" oninput="handleInput(event, 5)" onkeydown="handleKeyDown(event, 5)">
+            </div>
+            <button onclick="checkCode()">Acceder</button>
+            <div class="error-container">
+                <p class="error" id="errorMessage"></p>
+            </div>
+            <div class="loading-bar-container" id="loadingBarContainer">
+                <div class="loading-bar" id="loadingBar"></div>
+            </div>
+            <div class="keyboard-hint">Usa las flechas ← → o Tab para navegar entre campos</div>
+        </div>
+        <div class="scan-line"></div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    
+    <div class="modal-window" id="modalWindow">
+        <div class="modal-header">
+            <h3 class="modal-title">Acceso Concedido</h3>
+            <button class="close-button" onclick="closeModal()">×</button>
+        </div>
+        <div class="modal-content">
+            <img id="eventImage" src="" alt="Imagen del evento">
+        </div>
+    </div>
+
+    <div class="random-letters" id="randomLetters"></div>
+
+    <div class="highlight" id="highlightLetter">a</div>
+
+    <script>
+        const encryptedCode = "zXJwLk";
+        const eventImage = "https://media.discordapp.net/attachments/815094225171120139/1359047936880808037/eventpng.jpg?ex=67f60f86&is=67f4be06&hm=94328885af1e5518be1e1c8de7df94dbb0f58bfc1a4e551ac26a798ed28dec4a&=&format=webp";
+        
+        let lettersInterval;
+        let highlightTimeout;
+
+        function handleInput(event, inputIndex) {
+            if (event.inputType !== "deleteContentBackward" && inputIndex < 5) {
+                moveFocus(inputIndex);
+            }
+        }
+
+        function moveFocus(inputIndex) {
+            if (inputIndex < 5) {
+                document.getElementById('input' + (inputIndex + 1)).focus();
+            }
+        }
+
+        function handleKeyDown(event, inputIndex) {
+            const input = document.getElementById("input" + inputIndex);
+
+            if (event.key === "ArrowRight" && inputIndex < 5) {
+                document.getElementById("input" + (inputIndex + 1)).focus();
+                event.preventDefault();
+            } else if (event.key === "ArrowLeft" && inputIndex > 1) {
+                document.getElementById("input" + (inputIndex - 1)).focus();
+                event.preventDefault();
+            } else if (event.key === "Backspace") {
+                if (input.value === "" && inputIndex > 1) {
+                    document.getElementById("input" + (inputIndex - 1)).focus();
+                    event.preventDefault();
+                }
+            } else if (event.key === "Enter") {
+                checkCode();
+                event.preventDefault();
+            }
+        }
+
+        function checkCode() {
+            const inputCode =
+                document.getElementById("input1").value +
+                document.getElementById("input2").value +
+                document.getElementById("input3").value +
+                document.getElementById("input4").value +
+                document.getElementById("input5").value;
+
+            const errorMessage = document.getElementById("errorMessage");
+            const loadingBarContainer = document.getElementById("loadingBarContainer");
+            const loadingBar = document.getElementById("loadingBar");
+
+            errorMessage.textContent = "";
+
+            if (inputCode === "an9GO") {
+                
+                errorMessage.textContent = "¡Código correcto! Cargando acceso...";
+                errorMessage.style.color = "#00FF00";
+                
+                loadingBarContainer.style.display = "block";
+                loadingBar.style.width = "0%";
+                
+                setTimeout(() => {
+                    loadingBar.style.width = "100%";
+                }, 50);
+                
+                setTimeout(() => {
+                    document.getElementById("eventImage").src = eventImage;
+                    document.getElementById("overlay").style.display = "block";
+                    document.getElementById("modalWindow").style.display = "block";
+                    loadingBarContainer.style.display = "none";
+                    errorMessage.textContent = "";
+                    stopRandomLetters();
+                }, 900);
+            } else {
+
+                errorMessage.textContent = "Código incorrecto. Intenta nuevamente.";
+                errorMessage.style.color = "#FF3333";
+                document.querySelectorAll('input[type="text"]').forEach(input => input.classList.add('shaking'));
+                setTimeout(() => {
+                    document.querySelectorAll('input[type="text"]').forEach(input => {
+                        input.classList.remove('shaking');
+                        input.value = "";
+                    });
+                    document.getElementById("input1").focus();
+                }, 500);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById("overlay").style.display = "none";
+            document.getElementById("modalWindow").style.display = "none";
+            document.querySelectorAll('input[type="text"]').forEach(input => {
+                input.value = "";
+            });
+            document.getElementById("input1").focus();
+            startRandomLetters();
+        }
+
+        function stopRandomLetters() {
+            clearInterval(lettersInterval);
+            document.getElementById("randomLetters").innerHTML = "";
+        }
+
+        function generateRandomLetters() {
+            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            const randomLetter = letters[Math.floor(Math.random() * letters.length)];
+            const x = Math.floor(Math.random() * 100) + "%";
+            const y = Math.floor(Math.random() * 100) + "%";
+
+            const letterElement = document.createElement("div");
+            letterElement.classList.add("random-letter");
+            letterElement.textContent = randomLetter;
+            letterElement.style.left = x;
+            letterElement.style.top = y;
+
+            document.getElementById("randomLetters").appendChild(letterElement);
+
+            setTimeout(() => {
+                letterElement.remove();
+            }, 1500);
+        }
+
+        function startRandomLetters() {
+            lettersInterval = setInterval(generateRandomLetters, 100);
+        }
+
+        function highlightLetter() {
+            const highlight = document.getElementById("highlightLetter");
+
+            highlight.style.opacity = 0;
+            highlight.style.display = "none";
+
+            highlightTimeout = setTimeout(() => {
+                highlight.style.display = "block";
+                setTimeout(() => {
+                    highlight.style.animation = "glow 3s forwards";
+                }, 10);
+            }, 30000);
+        }
+
+        window.onload = () => {
+            startRandomLetters();
+            highlightLetter();
+            document.getElementById("input1").focus();
+        };
+    </script>
+</body>
+</html>
