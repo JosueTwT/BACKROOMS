@@ -355,10 +355,11 @@
 
     <div class="random-letters" id="randomLetters"></div>
 
-    <div class="highlight" id="highlightLetter">a</div>
+    <div class="highlight" id="highlightLetter">B</div>
 
     <script>
-        const encryptedCode = "zXJwLk";
+        // contraseña = Pot34
+        const correctPassword = "BkR9m";
         const eventImage = "https://media.discordapp.net/attachments/815094225171120139/1359047936880808037/eventpng.jpg?ex=67f60f86&is=67f4be06&hm=94328885af1e5518be1e1c8de7df94dbb0f58bfc1a4e551ac26a798ed28dec4a&=&format=webp";
         
         let lettersInterval;
@@ -410,7 +411,7 @@
 
             errorMessage.textContent = "";
 
-            if (inputCode === "an9GO") {
+            if (inputCode === correctPassword) {
                 
                 errorMessage.textContent = "¡Código correcto! Cargando acceso...";
                 errorMessage.style.color = "#00FF00";
@@ -431,7 +432,6 @@
                     stopRandomLetters();
                 }, 900);
             } else {
-
                 errorMessage.textContent = "Código incorrecto. Intenta nuevamente.";
                 errorMessage.style.color = "#FF3333";
                 document.querySelectorAll('input[type="text"]').forEach(input => input.classList.add('shaking'));
@@ -485,7 +485,8 @@
 
         function highlightLetter() {
             const highlight = document.getElementById("highlightLetter");
-
+            highlight.textContent = "B";
+            
             highlight.style.opacity = 0;
             highlight.style.display = "none";
 
