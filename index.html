@@ -315,9 +315,36 @@
         .modal-window {
             animation: flicker 2s ease-in-out;
         }
+        
+
+        .zoom-letter {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: yellow;
+            font-size: 300px; 
+            font-weight: bold;
+            text-shadow: 
+                0 0 20px yellow,
+                0 0 40px yellow,
+                0 0 60px yellow,
+                0 0 80px yellow;
+            opacity: 0.8;
+            z-index: 5;
+            pointer-events: none; 
+        }
+        
+        @media (min-width: 100%) {
+            .zoom-letter {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="zoom-letter">K</div>
+    
     <div class="monitor">
         <div class="container">
             <h2>The Backrooms - Josue_TwT</h2>
@@ -365,7 +392,15 @@
 
 
 
-// que planeas ver? sabes que aunque encuentres el codigo no esta habilitado
+
+
+
+
+
+
+
+
+// que intentas ver? aunque encuentres el codigo lo cambiare, es solo temporal y aun asi no esta activo, ratita
 
 
 
@@ -381,9 +416,26 @@
 
 
 
-        
+
+
+
+
+
+
+
+
+
+
+
         // contraseña = Pot34
-        const correctPassword = "BkR9m";
+
+
+
+
+
+
+
+        const correctPassword = "difie";
         const eventImage = "https://postimg.cc/XX9NV9Vv";
         
         let lettersInterval;
