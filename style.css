@@ -1,23 +1,106 @@
 body {
-    font-family: 'Courier New', monospace;
-    background-color: black;
-    color: #00FF00;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background-color: black;
     overflow: hidden;
+    font-family: 'Courier New', monospace;
+}
+
+/* Power button styles */
+.power-button {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #333;
+    border: 4px solid #00FF00;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5), inset 0 0 15px rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+    position: relative;
+    z-index: 100;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.power-symbol {
+    color: #00FF00;
+    font-size: 40px;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+}
+
+.power-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.8), inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Power on animation */
+@keyframes powerOn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    20% {
+        opacity: 0.5;
+        transform: scale(1.05);
+    }
+    40% {
+        opacity: 0.2;
+        transform: scale(0.95);
+    }
+    60% {
+        opacity: 0.7;
+        transform: scale(1.02);
+    }
+    80% {
+        opacity: 0.5;
+        transform: scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.monitor {
+    background-color: black;
+    border: 8px solid #00FF00;
+    border-radius: 30px;
+    box-shadow: 0 0 20px 5px rgba(0, 255, 0, 0.8);
+    padding: 20px;
+    width: 600px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    display: none;
+    animation: powerOn 2s ease-in-out;
 }
 
 .container {
     text-align: center;
-    border: 3px solid #00FF00;
+    color: #00FF00;
     padding: 20px;
-    background-color: black;
-    width: 400px;
-    box-shadow: 0px 0px 10px 2px rgba(0, 255, 0, 0.8);
+    width: 100%;
+    z-index: 1;
+}
+
+h2 {
+    text-shadow: 0 0 10px #00FF00, 0 0 15px #00FF00;
+    margin-bottom: 30px;
+}
+
+.input-code {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 input[type="text"] {
@@ -25,32 +108,295 @@ input[type="text"] {
     color: #00FF00;
     border: 1px solid #00FF00;
     padding: 10px;
-    width: 80%;
-    margin-bottom: 10px;
-    font-size: 16px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 28px;
+    margin: 0 8px;
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #00FF00;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+    transform: scale(1.1);
 }
 
 button {
     background-color: black;
     color: #00FF00;
-    border: 1px solid #00FF00;
-    padding: 10px 20px;
-    font-size: 16px;
+    border: 2px solid #00FF00;
+    padding: 12px 30px;
+    font-size: 18px;
     cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
 }
 
 button:hover {
     background-color: #00FF00;
     color: black;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 1);
 }
 
 img {
-    display: none;
+    display: block;
     width: 100%;
+    max-height: 300px;
+    object-fit: contain;
     margin-top: 20px;
+    border: 2px solid #00FF00;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
 }
 
 .error {
-    color: red;
-    font-size: 14px;
+    color: #FF3333;
+    font-size: 16px;
+    margin-top: 15px;
+    text-shadow: 0 0 10px #FF3333;
+}
+
+@keyframes randomText {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0.7;
+    }
+}
+
+.random-letters {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    font-size: 24px;
+    animation: randomText 0.5s infinite alternate;
+    white-space: nowrap;
+}
+
+.random-letter {
+    position: absolute;
+    color: #00FF00;
+    animation: randomText 0.5s infinite alternate;
+    font-size: 24px;
+    user-select: none;
+    opacity: 0.5;
+}
+
+.highlight {
+    position: absolute;
+    top: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: yellow;
+    font-size: 28px;
+    z-index: 1000;
+    opacity: 0;
+    display: none;
+}
+
+@keyframes glow {
+    0% {
+        opacity: 0;
+        text-shadow: 0 0 10px yellow, 0 0 20px yellow, 0 0 30px yellow;
+        transform: translateX(-50%) scale(1);
+    }
+    25% {
+        opacity: 1;
+        text-shadow: 0 0 15px yellow, 0 0 25px yellow, 0 0 40px yellow;
+        transform: translateX(-50%) scale(1.5);
+    }
+    75% {
+        opacity: 1;
+        text-shadow: 0 0 15px yellow, 0 0 25px yellow, 0 0 40px yellow;
+        transform: translateX(-50%) scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        text-shadow: 0 0 10px yellow, 0 0 20px yellow, 0 0 30px yellow;
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+.shaking {
+    animation: shake 0.5s ease-in-out;
+}
+
+.error-container {
+    margin-top: 20px;
+    height: 20px;
+}
+
+@keyframes scanLine {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateY(100%);
+        opacity: 0.5;
+    }
+}
+
+.scan-line {
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background-color: rgba(0, 255, 0, 0.2);
+    top: 0;
+    left: 0;
+    animation: scanLine 3s linear infinite;
+}
+
+.keyboard-hint {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #00AA00;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.loading-bar-container {
+    width: 80%;
+    height: 20px;
+    background-color: #003300;
+    border: 2px solid #00FF00;
+    border-radius: 10px;
+    margin: 20px auto;
+    overflow: hidden;
+    display: none;
+}
+
+.loading-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #00FF00;
+    transition: width 0.8s ease-in-out;
+}
+
+.modal-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 700px;
+    background-color: black;
+    border: 5px solid #00FF00;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.9);
+    z-index: 100;
+    display: none;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #00FF00;
+}
+
+.modal-title {
+    color: #00FF00;
+    margin: 0;
+    text-shadow: 0 0 10px #00FF00;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: #00FF00;
+    font-size: 24px;
+    cursor: pointer;
+    margin: 0;
+    padding: 0 10px;
+    text-shadow: 0 0 10px #00FF00;
+}
+
+.modal-content {
+    text-align: center;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 50;
+    display: none;
+}
+
+@keyframes flicker {
+    0% { opacity: 0.9; }
+    5% { opacity: 0.2; }
+    10% { opacity: 0.9; }
+    15% { opacity: 0.8; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    85% { opacity: 0.6; }
+    90% { opacity: 1; }
+    95% { opacity: 0.2; }
+    100% { opacity: 0.9; }
+}
+
+.modal-window {
+    animation: flicker 2s ease-in-out;
+}
+
+/* Power on effect */
+@keyframes powerOnEffect {
+    0% { background-color: #000; }
+    5% { background-color: #050; }
+    10% { background-color: #000; }
+    15% { background-color: #030; }
+    25% { background-color: #000; }
+    100% { background-color: #000; }
+}
+
+.screen-effect {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 200;
+    pointer-events: none;
+    animation: powerOnEffect 2s ease-in-out;
+    display: none;
+}
+
+.power-text {
+    color: #00FF00;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    text-shadow: 0 0 5px #00FF00;
+    opacity: 0.7;
 }
